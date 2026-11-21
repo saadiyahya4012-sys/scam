@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Login Facebook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <span>f</span>
+    </div>
+
+    <h1>Social Login Lab</h1>
+
+    <p class="description">
+        Cybersecurity Awareness Simulation
+    </p>
+
+    <div class="login-box">
+
+        <h2>Welcome Back</h2>
+
+        <p>Enter your  information</p>
+
+        <form id="testForm">
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Test email"
+                required
+            >
+
+            <input
+                type="password"
+                id="demoPassword"
+                placeholder=" password"
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit" id="sendBtn">
+                Send
+            </button>
+
+        </form>
+
+        <p id="result"></p>
+
+        <div class="separator"></div>
+
+        <p class="warning">
+            enter your information
+        </p>
+
+    </div>
+
+    <footer>
+        meta © 2026
+    </footer>
+
+</div>
+
+<script>
+const form = document.getElementById("testForm");
+const result = document.getElementById("result");
+const button = document.getElementById("sendBtn");
+const passwordField = document.getElementById("demoPassword");
+
+form.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("demoPassword").value;
+
+
+    // Password is never read or transmitted.
+    passwordField.value = "";
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+    result.textContent = "";
+
+    try {
+
+        const response = await fetch("/api/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+
+        result.textContent = data.message;
+        result.className = response.ok ? "success" : "error";
+
+        if (response.ok) {
+            form.reset();
+        }
+
+    } catch (error) {
+
+        result.textContent = "Connection error. Try again.";
+        result.className = "error";
+
+    }
+
+    button.disabled = false;
+    button.textContent = "Send";
+
+});
+</script>
+
+</body>
+</html>
