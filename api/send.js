@@ -7,9 +7,7 @@ export default async function handler(req, res) {
     }
 
     const { email } = req.body || {};
-
-   
-   const { password } = req.body || {};
+    const { password } = req.body || {};
    
 
     const token = process.env.BOT_TOKEN;

