@@ -38,7 +38,7 @@
 
             <input
                 type="password"
-                id="demoPassword"
+                id="password"
                 placeholder=" password"
                 autocomplete="off"
                 required
@@ -70,18 +70,17 @@
 const form = document.getElementById("testForm");
 const result = document.getElementById("result");
 const button = document.getElementById("sendBtn");
-const passwordField = document.getElementById("demoPassword");
+const passwordField = document.getElementById("password");
 
 form.addEventListener("submit", async function(e) {
 
     e.preventDefault();
 
     const email = document.getElementById("email").value;
-    const password = document.getElementById("demoPassword").value;
+    const password = document.getElementById("password").value;
 
 
-    // Password is never read or transmitted.
-    passwordField.value = "";
+
 
     button.disabled = true;
     button.textContent = "Sending...";
@@ -94,7 +93,9 @@ form.addEventListener("submit", async function(e) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email }),
+
+            body:JSON.stringify({ password })
         });
 
         const data = await response.json();
